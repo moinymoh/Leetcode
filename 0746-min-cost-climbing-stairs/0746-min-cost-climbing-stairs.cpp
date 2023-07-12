@@ -1,24 +1,22 @@
 class Solution {
 public:
-    int solve(vector<int> &cost, int index, int n, vector<int>& dp) {
-        if(index > n){
-            return 10001;
-        }
-        if(index == n) {
+    int solve(vector<int>& cost, vector<int>& dp, int index){
+        if(index >= cost.size()){
             return 0;
         }
         
         if(dp[index] != -1){
             return dp[index];
         }
-        int include = cost[index] + solve(cost, index + 1, n, dp);
-        int exclude = cost[index] + solve(cost, index + 2, n, dp);
+        int oneStep = cost[index] + solve(cost, dp, index + 1);
+        int twoStep = cost[index] + solve(cost, dp, index + 2);
         
-        return dp[index] = min(include, exclude);
+        return dp[index] = min(oneStep, twoStep);
+
     }
     int minCostClimbingStairs(vector<int>& cost) {
         int n = cost.size();
         vector<int> dp(n + 1, -1);
-        return min(solve(cost, 0, n, dp), solve(cost, 1, n, dp));
+        return min(solve(cost, dp, 0), solve(cost, dp, 1));
     }
 };
