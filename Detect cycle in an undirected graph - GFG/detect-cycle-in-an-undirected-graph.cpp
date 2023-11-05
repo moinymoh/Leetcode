@@ -19,12 +19,12 @@ class Solution {
             int parent = q.front().second;
             q.pop();
 
-            for(auto it : adj[node]) {
+            for(auto adjacentNode : adj[node]) {
                 
-                if(vis[it] == 0) {
-                    q.push(make_pair(it, node));
-                    vis[it] = 1;
-                } else if(parent != it) {
+                if(vis[adjacentNode] == 0) {
+                    q.push(make_pair(adjacentNode, node));
+                    vis[adjacentNode] = 1;
+                } else if(parent != adjacentNode) {
                     return true;
                 }
             }
