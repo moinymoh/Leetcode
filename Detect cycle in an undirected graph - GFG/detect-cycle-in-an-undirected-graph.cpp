@@ -5,32 +5,44 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    bool bfs(int src, vector<int> adj[], vector<int>& vis) {
-        bool ans = false;
+    // bool bfs(int src, vector<int> adj[], vector<int>& vis) {
+    //     bool ans = false;
 
-        queue<pair<int, int>> q;
+    //     queue<pair<int, int>> q;
         
 
-        q.push(make_pair(src, -1));
-        vis[src] = 1;
+    //     q.push(make_pair(src, -1));
+    //     vis[src] = 1;
 
-        while(!q.empty()) {
-            int node = q.front().first;
-            int parent = q.front().second;
-            q.pop();
+    //     while(!q.empty()) {
+    //         int node = q.front().first;
+    //         int parent = q.front().second;
+    //         q.pop();
 
-            for(auto adjacentNode : adj[node]) {
+    //         for(auto adjacentNode : adj[node]) {
                 
-                if(vis[adjacentNode] == 0) {
-                    q.push(make_pair(adjacentNode, node));
-                    vis[adjacentNode] = 1;
-                } else if(parent != adjacentNode) {
-                    return true;
-                }
-            }
-        }
+    //             if(vis[adjacentNode] == 0) {
+    //                 q.push(make_pair(adjacentNode, node));
+    //                 vis[adjacentNode] = 1;
+    //             } else if(parent != adjacentNode) {
+    //                 return true;
+    //             }
+    //         }
+    //     }
 
-        return ans;
+    //     return ans;
+    // }
+    void dfs(int node, int parent, vector<int> adj[], vector<int>& vis, bool& ans) {
+        vis[node] = 1;
+        
+        for(auto adjacentNode : adj[node]) {
+            if(vis[adjacentNode] == 0) {
+                dfs(adjacentNode, node, adj, vis, ans);
+            } else if (parent != adjacentNode){
+                ans = true;
+                return;
+            }
+         }
     }
     // Function to detect cycle in an undirected graph.
     bool isCycle(int V, vector<int> adj[]) {
@@ -39,9 +51,16 @@ class Solution {
         vector<int> vis(V, 0);
         for(int i = 0; i < V; i++) {
             if(vis[i] == 0)
-                ans = ans || bfs(i, adj, vis);
+                dfs(i, -1, adj, vis, ans);
         }
         return ans;
+        // bool ans = false;
+        // vector<int> vis(V, 0);
+        // for(int i = 0; i < V; i++) {
+        //     if(vis[i] == 0)
+        //         ans = ans || bfs(i, adj, vis);
+        // }
+        // return ans;
     }
 };
 
